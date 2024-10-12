@@ -15,7 +15,11 @@ def home_view(request):
     context = {
             'login_form': login_form,
             'signup_form': signup_form,
+            'is_authenticated': request.user.is_authenticated,
         }
+
+    if user.is_authenticated:
+        context['registered_user'] = user.first_name
 
     return render(request, 'base.html', context)
 

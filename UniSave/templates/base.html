@@ -26,7 +26,13 @@
 
     <div class="main-content">
         <div class="welcome-section">
-            <h1>Welcome to Your Application!</h1>
+            <h1>
+                {% if registered_user %}
+                    Welcome, {{ registered_user }} ! <!-- This will be replaced by JS if needed -->
+                {% else %}
+                    Create an account to continue
+                {% endif %}
+            </h1>
         </div>
 
         <div class="icon-section">
@@ -61,8 +67,11 @@
         </div>
 
         <div class="button-section">
-            <button class="login-btn">Sign In</button>
-            <!-- <button class="signup-btn">Sign Up</button> -->
+            {% if is_authenticated %}
+                <button class="sign-out-btn">Sign Out</button>
+            {% else %}
+                <button class="login-btn">Sign In</button>
+            {% endif %}
         </div>
     </div>
 
@@ -71,7 +80,7 @@
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2>Sign in to continue</h2>
-            <form method="POST" id="loginForm">
+            <form method="POST" id="loginForm" action="{% url 'signin' %}">
                 {% csrf_token %}
                 <label for="username">Username:</label>
                 {{ login_form.username }}
@@ -79,67 +88,130 @@
                 <label for="password">Password:</label>
                 {{ login_form.password }}
 
-                <button type="submit" class="login-btn">Submit</button>
+                <button type="submit" class="login-btn">Sign In</button>
+
+                <div class="or-container">
+                    <p>OR</p>
+                </div>
+
+                <!-- Add Sign Up button here -->
+                <button type="button" class="login-btn" id="showSignup">Sign Up</button>
             </form>
         </div>
     </div>
 
+
     <div class="modal" id="signupModal">
         <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
+            <span class="close" id="closeSignupModal">&times;</span> <!-- Close button -->
             <h2>Sign up to continue</h2>
-            <form method="POST" id="signupForm">
+            <form method="POST" id="signupForm" action="{% url 'signup' %}">
                 {% csrf_token %}
                 <label for="firstname">First name:</label>
                 {{ signup_form.first_name }}
-
+    
                 <label for="lastname">Last name:</label>
                 {{ signup_form.last_name }}
-
+    
                 <label for="username">Username:</label>
                 {{ signup_form.username }}
-
+    
                 <label for="email">Email:</label>
                 {{ signup_form.email }}
-
+    
                 <label for="password">Password:</label>
                 {{ signup_form.password1 }}
                 <label for="confirm-password">Confirm Password:</label>
                 {{ signup_form.password2 }}
-
+    
                 <button type="submit" class="signup-btn">Submit</button>
+                <p><a href="#" id="backToLogin">Back to Login</a></p> <!-- Link to go back -->
             </form>
         </div>
     </div>
+    
+    <script id="is-authenticated" type="application/json">
+        {{ is_authenticated|yesno:"true,false" }}
+    </script>
 
     <script>
-        // Get the modal
-        const modal = document.getElementById("loginModal");
+        const isAuthenticated = JSON.parse(document.getElementById('is-authenticated').textContent);
 
-        // Get the button that opens the modal
+        // Get the modal elements
+        const loginModal = document.getElementById("loginModal");
+        const signupModal = document.getElementById("signupModal");
+    
+        // Show the login modal on page load
+        if (!isAuthenticated) {
+            loginModal.style.display = "block"; // Show the login modal
+        }
+    
+        // Get the buttons
         const loginBtn = document.querySelector(".login-btn");
-
-        // Get the <span> element that closes the modal
-        const closeModal = document.getElementById("closeModal");
-
-        // When the user clicks the button, open the modal 
+        const signOutBtn = document.querySelector(".sign-out-btn");
+        const showSignupBtn = document.getElementById("showSignup");
+        const closeLoginModal = document.getElementById("closeModal");
+        const closeSignupModal = document.getElementById("closeSignupModal");
+        const backToLoginLink = document.getElementById("backToLogin");
+    
+        // When the user clicks the Sign In button, show the login modal
         loginBtn.addEventListener("click", function(event) {
-            event.preventDefault(); // Prevent the default form submission
-            modal.style.display = "block"; // Show the modal
+            event.preventDefault();
+            loginModal.style.display = "block";
+        });
+    
+        // Show Signup Modal when Sign Up button is clicked
+        showSignupBtn.addEventListener("click", function() {
+            loginModal.style.display = "none"; 
+            signupModal.style.display = "block";
+        });
+    
+        // When the user clicks on the close button for the login modal, hide it
+        closeLoginModal.addEventListener("click", function() {
+            loginModal.style.display = "none"; 
+        });
+    
+        // When the user clicks on the close button for the signup modal, hide it
+        closeSignupModal.addEventListener("click", function() {
+            signupModal.style.display = "none";
+        });
+    
+        // When the user clicks the "Back to Login" link, show the login modal
+        backToLoginLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            signupModal.style.display = "none";
+            loginModal.style.display = "block";
         });
 
-        // When the user clicks on <span> (x), close the modal
-        closeModal.addEventListener("click", function() {
-            modal.style.display = "none"; // Hide the modal
-        });
 
+        if (signOutBtn) {
+            signOutBtn.addEventListener("click", function() {
+                // Call the sign out endpoint
+                fetch("{% url 'signout' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Redirect to the home page or reload
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error signing out:', error);
+                });
+            });
+        }
+    
         // When the user clicks anywhere outside of the modal, close it
         window.addEventListener("click", function(event) {
-            if (event.target === modal) {
-                modal.style.display = "none"; // Hide the modal
+            if (event.target === loginModal || event.target === signupModal) {
+                loginModal.style.display = "none";
+                signupModal.style.display = "none";
             }
         });
     </script>
-
 </body>
 </html>
