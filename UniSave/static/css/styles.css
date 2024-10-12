@@ -1,0 +1,238 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navigation Bar */
+.navbar {
+    width: 100%;
+    background-color: #005f73;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px; /* More padding for larger look */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.logo img {
+    height: 80px;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+    gap: 100px; /* Increased gap between links */
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.nav-links li a:hover {
+    text-decoration: underline;
+}
+
+.notifications img {
+    height: 40px;
+}
+
+/* Main Content Centering */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 100px; /* Ensures content is not hidden behind navbar */
+}
+
+/* Welcome Section */
+.welcome-section {
+    margin: 100px 0;
+    text-align: center;
+}
+
+.welcome-section h1 {
+    font-size: 3rem; /* Larger welcome text */
+    color: #0a9396;
+}
+
+/* Icon Section */
+.icon-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-row {
+    display: flex;
+    justify-content: center;
+    gap: 60px; /* More space between icons */
+    margin-bottom: 40px; /* Increased margin for separation */
+}
+
+.icon-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 450px; /* Increased size */
+    height: 400px;
+    background-color: #94d2bd;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.icon-box img {
+    width: 120px; /* Increased icon size */
+    height: 120px;
+}
+
+.icon-box p {
+    margin-top: 15px;
+    font-size: 1.9rem; /* Larger text for icon labels */
+    color: #333;
+}
+
+.icon-box:hover {
+    background-color: #0a9396;
+}
+
+/* Login Button */
+.login-section {
+    margin-top: 40px;
+}
+
+.login-btn {
+    padding: 15px 30px; /* Larger button */
+    font-size: 1.5rem;
+    background-color: #005f73;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 400px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #0a9396;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+    }
+
+    .icon-row {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .icon-box {
+        width: 120px;
+        height: 120px;
+    }
+
+    .icon-box img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .welcome-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+
+/*MODALS*/
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+}
+
+.modal-content h2 {
+    color: #0a9396; /* Header color */
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 10px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.modal-content button {
+    padding: 10px;
+    margin-top: 20px; /* Increased margin for better spacing */
+    background-color: #005f73;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Make the button full width */
+}
+
+.modal-content button:hover {
+    background-color: #0a9396; /* Change color on hover */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

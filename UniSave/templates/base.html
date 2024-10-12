@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Application</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="notifications">
+            <img src="{% static 'images/notification.png' %}" alt="Notifications">
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="welcome-section">
+            <h1>Welcome to Your Application!</h1>
+        </div>
+
+        <div class="icon-section">
+            <div class="icon-row">
+                <div class="icon-box">
+                    <img src="{% static 'images/income.png' %}" alt="Icon 1">
+                    <p>Income</p>
+                </div>
+                <div class="icon-box">
+                    <img src="{% static 'images/expenses.png' %}" alt="Icon 2">
+                    <p>Expenses</p>
+                </div>
+                <div class="icon-box">
+                    <img src="{% static 'images/budget.png' %}" alt="Icon 3">
+                    <p>Budget</p>
+                </div>
+            </div>
+            <div class="icon-row">
+                <div class="icon-box">
+                    <img src="{% static 'images/savings.png' %}" alt="Icon 1">
+                    <p>Savings</p>
+                </div>
+                <div class="icon-box">
+                    <img src="{% static 'images/transaction.png' %}" alt="Icon 2">
+                    <p>Transactions</p>
+                </div>
+                <div class="icon-box">
+                    <img src="{% static 'images/simulator.png' %}" alt="Icon 3">
+                    <p>Simulator</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-section">
+            <button class="login-btn">Sign In</button>
+            <!-- <button class="signup-btn">Sign Up</button> -->
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Sign in to continue</h2>
+            <form method="POST" id="loginForm">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                {{ login_form.username }}
+
+                <label for="password">Password:</label>
+                {{ login_form.password }}
+
+                <button type="submit" class="login-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Sign up to continue</h2>
+            <form method="POST" id="signupForm">
+                {% csrf_token %}
+                <label for="firstname">First name:</label>
+                {{ signup_form.first_name }}
+
+                <label for="lastname">Last name:</label>
+                {{ signup_form.last_name }}
+
+                <label for="username">Username:</label>
+                {{ signup_form.username }}
+
+                <label for="email">Email:</label>
+                {{ signup_form.email }}
+
+                <label for="password">Password:</label>
+                {{ signup_form.password1 }}
+                <label for="confirm-password">Confirm Password:</label>
+                {{ signup_form.password2 }}
+
+                <button type="submit" class="signup-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        const modal = document.getElementById("loginModal");
+
+        // Get the button that opens the modal
+        const loginBtn = document.querySelector(".login-btn");
+
+        // Get the <span> element that closes the modal
+        const closeModal = document.getElementById("closeModal");
+
+        // When the user clicks the button, open the modal 
+        loginBtn.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            modal.style.display = "block"; // Show the modal
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        closeModal.addEventListener("click", function() {
+            modal.style.display = "none"; // Hide the modal
+        });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.addEventListener("click", function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none"; // Hide the modal
+            }
+        });
+    </script>
+
+</body>
+</html>
