@@ -49,3 +49,18 @@ def signup_view(request):
 def signout_view(request):
     logout(request)
     return redirect('home')
+
+def budget_view(request):
+    pass
+
+def transactions_view(request):
+    pass
+
+def expenses_view(request):
+    pass
+
+def savings_view(request):
+    pass
+
+def simulator_view(request):
+    pass
