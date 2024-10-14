@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget View</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <!-- Include the navbar here, or extend from a base template -->
+        <!--  -->
+        {% include 'navbar.html' %}
+    </div>
+
+    {% if not has_budget %}
+        <h2 class="has-budget">You currently do not have a budget</h2>
+        <button id="createBudgetBtn" aria-label="Create Budget">Create Budget</button>
+
+        <!-- Modal for creating a budget -->
+        <div id="createBudgetModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeBudgetModal">&times;</span>
+                <h2>Create Your Budget</h2>
+                <form method="POST" action="{% url 'budget' %}">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label for="totalIncome">Total Income:</label></td>
+                            <td>{{ budget_form.total_income }}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="totalExpenses">Total Expenses:</label></td>
+                            <td>{{ budget_form.total_expenses }}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="savingsGoal">Savings Goal:</label></td>
+                            <td>{{ budget_form.savings_goal }}</td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="save-btn">Save Budget</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <h2 class="has-budget">Your Current Budget</h2>
+        <table>
+            <tr>
+                <td>Total Income:</td>
+                <td>R {{ budget.total_income }}</td>
+            </tr>
+            <tr>
+                <td>Total Expenses:</td>
+                <td>R {{ budget.total_expenses }}</td>
+            </tr>
+            <tr>
+                <td>Savings Goal:</td>
+                <td>R {{ budget.savings_goal }}</td>
+            </tr>
+        </table>
+
+        <button id="editBudgetBtn" aria-label="Edit Budget">Edit</button>
+        <button id="deleteBudgetBtn" aria-label="Delete Budget">Delete</button>
+
+        <!-- Modal for editing the budget -->
+        <div id="editBudgetModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeEditBudgetModal">&times;</span>
+                <h2>Edit Your Budget</h2>
+                <form method="POST" action="{% url 'editbudget' %}">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label for="totalIncome">Total Income:</label></td>
+                            <td>{{ budget_form.total_income }}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="totalExpenses">Total Expenses:</label></td>
+                            <td>{{ budget_form.total_expenses }}</td>
+                        </tr>
+                        <tr>
+                            <td><label for="savingsGoal">Savings Goal:</label></td>
+                            <td>{{ budget_form.savings_goal }}</td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="save-btn">Save Budget</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    <script>
+        
+        const createBudgetModal = document.getElementById("createBudgetModal");
+        const editBudgetModal = document.getElementById("editBudgetModal");
+
+        const createBudgetBtn = document.getElementById("createBudgetBtn");
+        const editBudgetBtn = document.getElementById("editBudgetBtn");
+
+        
+        const closeBudgetModal = document.getElementById("closeBudgetModal");
+        const closeEditBudgetModal = document.getElementById("closeEditBudgetModal");
+
+        createBudgetBtn.addEventListener("click", function() {
+            createBudgetModal.style.display = "block";
+        });
+
+        editBudgetBtn.addEventListener("click", function() {
+            editBudgetModal.style.display = "block";
+        });
+
+        closeBudgetModal.addEventListener("click", function() {
+            createBudgetModal.style.display = "none";
+        });
+
+        closeEditBudgetModal.addEventListener("click", function() {
+            editBudgetModal.style.display = "none";
+        });
+
+        
+        window.addEventListener("click", function(event) {
+            if (event.target === createBudgetModal) {
+                createBudgetModal.style.display = "none";
+            }
+            if (event.target === editBudgetModal) {
+                editBudgetModal.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

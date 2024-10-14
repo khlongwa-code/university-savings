@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Budget
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -67,3 +67,39 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
+
+
+class BudgetForm(forms.ModelForm):
+    total_income = forms.DecimalField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 'income...',
+                'class': 'budget-form'  # You can add CSS classes if needed
+            }
+        )
+    )
+
+    total_expenses = forms.DecimalField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 'expenses...',
+                'class': 'budget-form'
+            }
+        )
+    )
+
+    savings_goal = forms.DecimalField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 'savings...',
+                'class': 'budget-form'
+            }
+        )
+    )
+
+    class Meta:
+        model = Budget
+        fields = ('total_income', 'total_expenses', 'savings_goal')

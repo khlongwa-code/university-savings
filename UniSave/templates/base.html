@@ -9,20 +9,7 @@
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="logo">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
-        </div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-        <div class="notifications">
-            <img src="{% static 'images/notification.png' %}" alt="Notifications">
-        </div>
-    </div>
+    {% include 'navbar.html' %}
 
     <div class="main-content">
         <div class="welcome-section">
@@ -46,8 +33,10 @@
                     <p>Expenses</p>
                 </div>
                 <div class="icon-box">
-                    <img src="{% static 'images/budget.png' %}" alt="Icon 3">
-                    <p>Budget</p>
+                    <a href="{% url 'budget' %}">
+                        <img src="{% static 'images/budget.png' %}" alt="Budget">
+                        <p>Budget</p>
+                    </a>
                 </div>
             </div>
             <div class="icon-row">

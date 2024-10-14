@@ -107,6 +107,11 @@ body {
     margin-top: 15px;
     font-size: 1.9rem; /* Larger text for icon labels */
     color: #333;
+    text-decoration: none;
+}
+
+.icon-box a {
+    text-decoration: none;
 }
 
 .icon-box:hover {
