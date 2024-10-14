@@ -9,8 +9,6 @@
 </head>
 <body>
     <div class="navbar">
-        <!-- Include the navbar here, or extend from a base template -->
-        <!--  -->
         {% include 'navbar.html' %}
     </div>
 
@@ -44,24 +42,28 @@
             </div>
         </div>
     {% else %}
-        <h2 class="has-budget">Your Current Budget</h2>
-        <table>
-            <tr>
-                <td>Total Income:</td>
-                <td>R {{ budget.total_income }}</td>
-            </tr>
-            <tr>
-                <td>Total Expenses:</td>
-                <td>R {{ budget.total_expenses }}</td>
-            </tr>
-            <tr>
-                <td>Savings Goal:</td>
-                <td>R {{ budget.savings_goal }}</td>
-            </tr>
-        </table>
-
-        <button id="editBudgetBtn" aria-label="Edit Budget">Edit</button>
-        <button id="deleteBudgetBtn" aria-label="Delete Budget">Delete</button>
+        <div class="budget-display">
+            <span class="close" id="closeBudgetDisplay">&times;</span>
+            <h2 class="has-budget">Your Current Budget</h2>
+            <table>
+                <tr>
+                    <td>Total Income:</td>
+                    <td>R {{ budget.total_income }}</td>
+                </tr>
+                <tr>
+                    <td>Total Expenses:</td>
+                    <td>R {{ budget.total_expenses }}</td>
+                </tr>
+                <tr>
+                    <td>Savings Goal:</td>
+                    <td>R {{ budget.savings_goal }}</td>
+                </tr>
+            </table>
+            <div class="buttons-container">
+                <button id="editBudgetBtn" aria-label="Edit Budget">Edit</button>
+                <button id="deleteBudgetBtn" aria-label="Delete Budget">Delete</button>
+            </div>
+        </div>
 
         <!-- Modal for editing the budget -->
         <div id="editBudgetModal" class="modal">
@@ -91,16 +93,16 @@
     {% endif %}
 
     <script>
-        
         const createBudgetModal = document.getElementById("createBudgetModal");
         const editBudgetModal = document.getElementById("editBudgetModal");
+        const budgetDisplay = document.querySelector('.budget-display');
 
         const createBudgetBtn = document.getElementById("createBudgetBtn");
         const editBudgetBtn = document.getElementById("editBudgetBtn");
-
         
         const closeBudgetModal = document.getElementById("closeBudgetModal");
         const closeEditBudgetModal = document.getElementById("closeEditBudgetModal");
+        const closeBudgetDisplay = document.getElementById("closeBudgetDisplay");
 
         createBudgetBtn.addEventListener("click", function() {
             createBudgetModal.style.display = "block";
@@ -118,7 +120,10 @@
             editBudgetModal.style.display = "none";
         });
 
-        
+        closeBudgetDisplay.addEventListener("click", function() {
+            budgetDisplay.style.display = "none";
+        });
+
         window.addEventListener("click", function(event) {
             if (event.target === createBudgetModal) {
                 createBudgetModal.style.display = "none";
