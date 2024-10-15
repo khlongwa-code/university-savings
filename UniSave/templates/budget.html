@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="navbar">
+        <!--  -->
         {% include 'navbar.html' %}
     </div>
 
@@ -41,97 +42,134 @@
                 </form>
             </div>
         </div>
-    {% else %}
-        <div class="budget-display">
-            <span class="close" id="closeBudgetDisplay">&times;</span>
-            <h2 class="has-budget">Your Current Budget</h2>
-            <table>
-                <tr>
-                    <td>Total Income:</td>
-                    <td>R {{ budget.total_income }}</td>
-                </tr>
-                <tr>
-                    <td>Total Expenses:</td>
-                    <td>R {{ budget.total_expenses }}</td>
-                </tr>
-                <tr>
-                    <td>Savings Goal:</td>
-                    <td>R {{ budget.savings_goal }}</td>
-                </tr>
-            </table>
-            <div class="buttons-container">
-                <button id="editBudgetBtn" aria-label="Edit Budget">Edit</button>
-                <button id="deleteBudgetBtn" aria-label="Delete Budget">Delete</button>
-            </div>
-        </div>
+    {% endif %}
 
-        <!-- Modal for editing the budget -->
-        <div id="editBudgetModal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="closeEditBudgetModal">&times;</span>
-                <h2>Edit Your Budget</h2>
-                <form method="POST" action="{% url 'editbudget' %}">
-                    {% csrf_token %}
-                    <table>
-                        <tr>
-                            <td><label for="totalIncome">Total Income:</label></td>
-                            <td>{{ budget_form.total_income }}</td>
-                        </tr>
-                        <tr>
-                            <td><label for="totalExpenses">Total Expenses:</label></td>
-                            <td>{{ budget_form.total_expenses }}</td>
-                        </tr>
-                        <tr>
-                            <td><label for="savingsGoal">Savings Goal:</label></td>
-                            <td>{{ budget_form.savings_goal }}</td>
-                        </tr>
-                    </table>
-                    <button type="submit" class="save-btn">Save Budget</button>
-                </form>
+    {% if has_budget %}
+        <div class="budget-display">
+            <span class="close" id="closeBudgetDisplay"><a href="{% url 'home' %}"  style="text-decoration: none; color: red;">&times;</a></span>
+            <h2>Your Current Budget</h2>
+            <div class="table-row">
+                <span class="amount-label">Total Income:</span>
+                <span class="money-amount">R {{ budget.total_income }}</span>
+            </div>
+            <div class="table-row">
+                <span class="amount-label">Total Expenses:</span>
+                <span class="money-amount">R {{ budget.total_expenses }}</span>
+            </div>
+            <div class="table-row">
+                <span class="amount-label">Savings Goal:</span>
+                <span class="money-amount">R {{ budget.savings_goal }}</span>
+            </div>
+        
+            <div class="buttons-container">
+                <button id="editBudgetBtn" aria-label="Edit Budget" type="button">Edit</button>
+                <button id="deleteBudgetBtn" aria-label="Delete Budget" type="button">Delete</button>
             </div>
         </div>
     {% endif %}
 
+    <!-- Modal for editing the budget -->
+    <div id="editBudgetModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeEditBudgetModal">&times;</span>
+            <h2>Edit Your Budget</h2>
+            <form method="POST" action="{% url 'editbudget' %}">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td><label for="totalIncome">Total Income:</label></td>
+                        <td>{{ budget_form.total_income }}</td>
+                    </tr>
+                    <tr>
+                        <td><label for="totalExpenses">Total Expenses:</label></td>
+                        <td>{{ budget_form.total_expenses }}</td>
+                    </tr>
+                    <tr>
+                        <td><label for="savingsGoal">Savings Goal:</label></td>
+                        <td>{{ budget_form.savings_goal }}</td>
+                    </tr>
+                </table>
+                <button type="submit" class="save-btn">Save Budget</button>
+            </form>
+        </div>
+    </div>
+
     <script>
+        // Get elements
         const createBudgetModal = document.getElementById("createBudgetModal");
-        const editBudgetModal = document.getElementById("editBudgetModal");
         const budgetDisplay = document.querySelector('.budget-display');
-
+        const editBudgetModal = document.getElementById("editBudgetModal");
+    
         const createBudgetBtn = document.getElementById("createBudgetBtn");
-        const editBudgetBtn = document.getElementById("editBudgetBtn");
-        
         const closeBudgetModal = document.getElementById("closeBudgetModal");
-        const closeEditBudgetModal = document.getElementById("closeEditBudgetModal");
         const closeBudgetDisplay = document.getElementById("closeBudgetDisplay");
-
-        createBudgetBtn.addEventListener("click", function() {
-            createBudgetModal.style.display = "block";
-        });
-
-        editBudgetBtn.addEventListener("click", function() {
-            editBudgetModal.style.display = "block";
-        });
-
-        closeBudgetModal.addEventListener("click", function() {
-            createBudgetModal.style.display = "none";
-        });
-
-        closeEditBudgetModal.addEventListener("click", function() {
-            editBudgetModal.style.display = "none";
-        });
-
-        closeBudgetDisplay.addEventListener("click", function() {
-            budgetDisplay.style.display = "none";
-        });
-
-        window.addEventListener("click", function(event) {
-            if (event.target === createBudgetModal) {
-                createBudgetModal.style.display = "none";
+        const editBudgetBtn = document.getElementById("editBudgetBtn");
+        const closeEditBudgetModal = document.getElementById("closeEditBudgetModal");
+        const deleteBudgetBtn = document.getElementById("deleteBudgetBtn"); // Assuming delete button is present
+    
+        // Wait for DOM to load before adding event listeners
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("DOM fully loaded");
+    
+            // Create Budget button functionality
+            if (createBudgetBtn) {
+                createBudgetBtn.onclick = function() {
+                    createBudgetModal.style.display = "block";
+                }
             }
-            if (event.target === editBudgetModal) {
-                editBudgetModal.style.display = "none";
+    
+            // Close button for the create budget modal
+            if (closeBudgetModal) {
+                closeBudgetModal.onclick = function() {
+                    createBudgetModal.style.display = "none";
+                }
+            }
+    
+            // Close budget display (this could be a back button or close link)
+            if (closeBudgetDisplay) {
+                closeBudgetDisplay.onclick = function() {
+                    budgetDisplay.style.display = "none";
+                }
+            }
+    
+            // Edit Budget button functionality
+            if (editBudgetBtn) {
+                editBudgetBtn.onclick = function() {
+                    console.log("clicked edit!");
+                    editBudgetModal.style.display = "block";
+                    budgetDisplay.style.display = "none";
+                }
+            }
+    
+            // Close button for the edit budget modal
+            if (closeEditBudgetModal) {
+                closeEditBudgetModal.onclick = function() {
+                    editBudgetModal.style.display = "none";
+                    budgetDisplay.style.display = "block"; // Show budget display again
+                }
+            }
+    
+            // Delete Budget button functionality (if present)
+            if (deleteBudgetBtn) {
+                deleteBudgetBtn.onclick = function() {
+                    if (confirm("Are you sure you want to delete this budget?")) {
+                        // Redirect to the delete URL or handle delete action here
+                        window.location.href = "{% url 'deletebudget' %}";
+                    }
+                }
+            }
+    
+            // Close modal when clicking outside the modal content
+            window.onclick = function(event) {
+                if (event.target === createBudgetModal) {
+                    createBudgetModal.style.display = "none";
+                }
+                if (event.target === editBudgetModal) {
+                    editBudgetModal.style.display = "none";
+                    budgetDisplay.style.display = "block"; // Show budget display again
+                }
             }
         });
-    </script>
+    </script>     
 </body>
 </html>
