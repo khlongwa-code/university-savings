@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+h2 {
+    color: #0a9396;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Table Styles */
+table {
+    width: 40%; /* Adjust the width as needed */
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ccc; /* Border for table cells */
+    text-align: left;
+}
+
+table th {
+    background-color: #0a9396; /* Header background color */
+    color: white; /* Header text color */
+}
+
+/* Button Styles */
+button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 0; /* Margin for spacing */
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Clear Button Specific Styles */
+#clearBtn {
+    background-color: #ff4d4d; /* Red for clear button */
+}
+
+#clearBtn:hover {
+    background-color: #ff1a1a;
+}
+
+.has-expense {
+    color: #0a9396;
+    margin: 20px 0;
+    padding-top: 460px;
+}
+
+#closeBtn {
+    width: 120px;
+    padding: 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #0a9396;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+#closeBtn:hover  {
+    background-color: #005f73;
+}
+
+.close-link {
+    font-size: 12px; /* Adjust the font size as needed */
+    color: #0a9396; /* Change to your desired color */
+    text-decoration: underline; /* Makes it look like a link */
+    float: right; /* Aligns the link to the right */
+}

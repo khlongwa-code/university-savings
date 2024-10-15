@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
 from .forms import LoginForm, RegistrationForm, BudgetForm
-from .models import Budget
+from .models import Budget, Expense
 
 # Create your views here.
 
@@ -49,18 +49,6 @@ def signup_view(request):
 def signout_view(request):
     logout(request)
     return redirect('home')
-
-def transactions_view(request):
-    pass
-
-def expenses_view(request):
-    pass
-
-def savings_view(request):
-    pass
-
-def simulator_view(request):
-    pass
 
 def budget_view(request):
     # Check if the user already has a budget
@@ -116,3 +104,24 @@ def delete_budget(request):
     budget = Budget.objects.get(user=request.user)
     budget.delete()
     return redirect('budget')
+
+def expenses_view(request):
+    # Retrieve expenses for the logged-in user
+    try:
+        expenses = Expense.objects.filter(user=request.user)
+        has_expenses = expenses.exists()
+    except Expense.DoesNotExist:
+        expenses = None
+        has_expenses = False
+
+    return render(request, 'expenses.html', {
+        'expenses': expenses,
+        'has_expenses': has_expenses,
+    })
+
+def clear_expenses(request):
+    if request.method == 'POST':
+        
+        Expense.objects.filter(user=request.user).delete()
+        messages.success(request, "All expenses have been cleared.")
+        return redirect('expenses')

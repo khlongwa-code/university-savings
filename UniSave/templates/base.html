@@ -29,8 +29,10 @@
                     <p>Income</p>
                 </div>
                 <div class="icon-box">
-                    <img src="{% static 'images/expenses.png' %}" alt="Icon 2">
-                    <p>Expenses</p>
+                    <a href="{% url 'expenses' %}">
+                        <img src="{% static 'images/expenses.png' %}" alt="Icon 2">
+                        <p>Expenses</p>
+                    </a>
                 </div>
                 <div class="icon-box">
                     <a href="{% url 'budget' %}">

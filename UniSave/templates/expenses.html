@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses View</title>
+    <link rel="stylesheet" href="{% static 'css/expenses_style.css' %}">
+</head>
+<body>
+   
+    <div class="navbar">
+        <!--  -->
+        {% include 'navbar.html' %}
+    </div>
+
+    {% if not has_expenses %}
+        <h2 class="has-expense">You have no spending history</h2>
+        <a href="{% url 'home' %}"><button id="closeBtn" aria-label="closeBtn">Back</button></a>
+    {% endif %}
+
+    {% if has_expenses %}
+        <h2 class="has-expense">Your Expenses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Date Spent</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td>R {{ expense.category }}</td>
+                    <td>R {{ expense.amount }}</td>
+                    <td>
+                        {{ expense.date_spent|date:"Y-m-d H:i" }}
+                        <a href="{% url 'home' %}" class="close-link">Close</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form method="POST" action="{% url 'clear_expenses' %}">
+            {% csrf_token %}
+            <button id="clearBtn" type="submit">Clear Expenses</button>
+        </form>
+    {% endif %}
+
+    <script>
+        
+    </script>     
+</body>
+</html>
