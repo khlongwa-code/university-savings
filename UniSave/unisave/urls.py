@@ -28,4 +28,5 @@ urlpatterns = [
     path('deletebudget/', views.delete_budget, name='deletebudget'),
     path('expenses/', views.expenses_view, name='expenses'),
     path('clear_expenses/', views.clear_expenses, name='clear_expenses'),
+    path('simulate/', views.simulator_view, name="simulate"),
 ]

@@ -20,32 +20,36 @@
     {% endif %}
 
     {% if has_expenses %}
-        <h2 class="has-expense">Your Expenses</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>Date Spent</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for expense in expenses %}
-                <tr>
-                    <td>R {{ expense.category }}</td>
-                    <td>R {{ expense.amount }}</td>
-                    <td>
-                        {{ expense.date_spent|date:"Y-m-d H:i" }}
-                        <a href="{% url 'home' %}" class="close-link">Close</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <form method="POST" action="{% url 'clear_expenses' %}">
-            {% csrf_token %}
-            <button id="clearBtn" type="submit">Clear Expenses</button>
-        </form>
+        <div class="expense-display">
+            <span class="close" id="closeExpenseDisplay"><a href="{% url 'home' %}"  style="text-decoration: none; color: red;">&times;</a></span>
+            <h2>Your Expenses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>
+                            Date Spent
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td> {{ expense.category }}</td>
+                        <td>R {{ expense.amount }}</td>
+                        <td>
+                            {{ expense.date_spent|date:"Y-m-d H:i" }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <form method="POST" action="{% url 'clear_expenses' %}">
+                {% csrf_token %}
+                <button id="clearBtn" type="submit">Clear Expenses</button>
+            </form>
+        </div>
     {% endif %}
 
     <script>

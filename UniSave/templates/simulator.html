@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Application</title>
+    <link rel="stylesheet" href="{% static 'css/simulator.css' %}">
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    <div class="main-content">
+        <div class="heading-section">
+            <h1>Select what you want to simulate</h1>
+        </div>
+        <div class="icon-section">
+            <div class="icon-row">
+                <div class="icon-box">
+                    <img src="{% static 'images/shopping.png' %}" alt="Icon 1">
+                    <p>Shopping</p>
+                </div>
+                <div class="icon-box" id="transactionIcon">
+                    <img src="{% static 'images/transaction.png' %}" alt="Icon 2">
+                    <p>Transactions</p>
+                </div>
+            </div>
+        </div>
+        <div class="button-section">
+            <a href="{% url 'home' %}"><button class="back-btn">Close</button></a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="transactionModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Transaction Details</h2>
+
+            <form method="POST" id="transactionForm">
+                {% csrf_token %} <!-- Required for Django POST forms -->
+                
+                <!-- Reference Field (not part of model but you can customize form if needed) -->
+                <div class="form-group">
+                    <label for="id_reference">Reference:</label>
+                    <input type="text" id="id_reference" name="reference" placeholder="Enter reference...">
+                </div>
+                
+                <!-- Amount Field (from TransactionForm) -->
+                <div class="form-group">
+                    {{ transaction_form.amount.label_tag }}
+                    {{ transaction_form.amount }}
+                </div>
+
+                <!-- Transaction Type (from TransactionForm) -->
+                <div class="form-group radio-group">
+                    <label>Transaction Type:</label>
+                    <div class="radio-option">
+                        <input type="radio" id="income" name="transaction_type" value="income" {% if transaction_form.transaction_type.value == 'income' %}checked{% endif %}>
+                        <label for="income">Income</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expense" name="transaction_type" value="expense" {% if transaction_form.transaction_type.value == 'expense' %}checked{% endif %}>
+                        <label for="expense">Expense</label>
+                    </div>
+                </div>
+
+                <!-- Date Field (from TransactionForm) -->
+                <div class="form-group">
+                    {{ transaction_form.transaction_date.label_tag }}
+                    {{ transaction_form.transaction_date }}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="transact-btn">Transact</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("transactionModal");
+
+        // Get the icon that opens the modal
+        var icon = document.getElementById("transactionIcon");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the icon, open the modal
+        icon.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>

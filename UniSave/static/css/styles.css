@@ -153,6 +153,21 @@ body {
     background-color: #0a9396;
 }
 
+.back-btn {
+    padding: 15px 30px; /* Larger button */
+    font-size: 1.5rem;
+    background-color: #005f73;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 400px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background-color: #0a9396;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-links {

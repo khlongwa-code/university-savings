@@ -1,9 +1,10 @@
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
-from .forms import LoginForm, RegistrationForm, BudgetForm
-from .models import Budget, Expense
+from .forms import LoginForm, RegistrationForm, BudgetForm, TransactionForm, IncomeForm, ExpenseForm
+from .models import Budget, Expense, Transaction, Income
 
 # Create your views here.
 
@@ -125,3 +126,46 @@ def clear_expenses(request):
         Expense.objects.filter(user=request.user).delete()
         messages.success(request, "All expenses have been cleared.")
         return redirect('expenses')
+
+
+def simulator_view(request):
+    if request.method == 'POST':
+        transaction_form = TransactionForm(request.POST)
+        income_form = IncomeForm(request.POST)
+        expense_form = ExpenseForm(request.POST)  # Bind the expense form
+
+        if transaction_form.is_valid():
+            transaction = transaction_form.save(commit=False)
+            transaction.user = request.user 
+
+            if transaction.transaction_type == Transaction.INCOME and income_form.is_valid():
+                income = income_form.save(commit=False)
+                income.user = request.user
+                income.amount = transaction.amount
+                income.date_received = timezone.now()
+                income.save()
+
+            elif transaction.transaction_type == Transaction.EXPENSE and expense_form.is_valid():
+                expense = expense_form.save(commit=False)  # Save expense form data
+                expense.user = request.user
+                expense.amount = transaction.amount
+                expense.date_spent = timezone.now() if not expense_form.cleaned_data.get('date_spent') else expense_form.cleaned_data['date_spent']
+                expense.category = expense_form.cleaned_data.get('category', 'Transfer')  # Default to 'Transfer' if no category provided
+                expense.save()
+                
+            transaction.transaction_date = timezone.now()
+            transaction.save()
+
+            return redirect('simulate')
+
+    else:
+        transaction_form = TransactionForm()
+        income_form = IncomeForm()
+        expense_form = ExpenseForm()
+
+    return render(request, 'simulator.html', {
+        'transaction_form': transaction_form,
+        'income_form': income_form,
+        'expense_form': expense_form,
+    })
+
