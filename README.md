@@ -91,7 +91,7 @@ Once UniSave is running, users can access the following modules after creating a
 
 *UniSave landing page*
 
-![login/signup](screenshots/login_signup.png)
+![login/signup](UniSave/static/screenshots/login_signup.png)
 
 *UniSave's main dashboard with easy access to all financial tools.*
 
@@ -99,15 +99,15 @@ Once UniSave is running, users can access the following modules after creating a
 
 *Spending simulator for users to plan out their expenses.*
 
-![simulator](screenshots/simulator.png)
+![simulator](UniSave/static/screenshots/simulator.png)
 
 *Budget management interface.*
 
-![budget](screenshots/budget.png)
+![budget](UniSave/static/screenshots/budget.png)
 
 *Expense management interface.*
 
-![expenses](screenshots/expenses.png)
+![expenses](UniSave/static/screenshots/expenses.png)
 
 ## Contributing
 
