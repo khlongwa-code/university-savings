@@ -95,7 +95,7 @@ Once UniSave is running, users can access the following modules after creating a
 
 *UniSave's main dashboard with easy access to all financial tools.*
 
-![dashoard](screenshots/home.png)
+![dashoard](UniSave/static/screenshots/home.png)
 
 *Spending simulator for users to plan out their expenses.*
 
