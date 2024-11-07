@@ -52,24 +52,24 @@ To set up UniSave locally, follow these steps:
    cd UniSave
 
 2. **Create and activate a virtual environment**:
-    
+    ```bash
     python -m venv env
     source env/bin/activate
 
 3. **Install dependencies**:
-   
+   ```bash
    pip install -r requirements.txt
 
 4. **Apply migrations**:
-
+   ```bash
    python manage.py migrate
 
 5. **Create a superuser**(optional, for accessing the admin panel):
-   
+   ```bash
    python manage.py createsuperuser
 
 6. **Start the development server**:
-
+   ```bash
    python manage.py runserver
 
 7. **Access UniSave**:
